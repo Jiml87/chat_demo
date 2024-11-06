@@ -15,8 +15,8 @@ const schema = a.schema({
   Messages: a
     .model({
       content: a.string().required(),
-      userId: a.string().required(),
-      userName: a.string().required(),
+      username: a.string().required(),
+      userLastName: a.string().required(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
 });

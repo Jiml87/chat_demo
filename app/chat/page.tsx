@@ -40,7 +40,7 @@ export default function Chat() {
         console.error(error);
         router.push('/login');
       });
-  }, []);
+  }, [router]);
 
   const handleSendMessage = () => null;
 
