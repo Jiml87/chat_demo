@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { TextAreaField, Flex } from '@aws-amplify/ui-react';
+import { TextAreaField, Flex, Text } from '@aws-amplify/ui-react';
 
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '@/amplify/data/resource';
@@ -49,12 +49,27 @@ export default function Chat() {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log('data', data);
+        // console.log('data', data);
         if (data.error) {
           router.push('/login');
         } else {
           setUser(data);
           getList();
+          //   setMessages([
+          //     {
+          //       id: '1',
+          //       content: 'sdfadsfasdfa asdfasdfasf asfdasf',
+          //       ...data,
+          //       userFirstName: data.firstName,
+          //     },
+          //     {
+          //       id: '2',
+          //       content:
+          //         'sdfadsfasdfa asdfasdfasf asfdasf fasfasdfa asf sdafa sdfaasf  s afdasdf asd fas fas as fasd',
+          //       username: 'user_brand',
+          //       userFirstName: 'Brand',
+          //     },
+          //   ]);
         }
       })
       .catch((error) => {
@@ -67,27 +82,62 @@ export default function Chat() {
     client.models.Messages.delete({ id });
   }
 
-  function handleSendMessage(e: any) {
-    if (user) {
+  function handleSendMessage() {
+    if (user && userMessage) {
       client.models.Messages.create({
-        content: e.target.value,
+        content: userMessage,
         username: user.username,
         userFirstName: user.firstName,
+      }).then(() => {
+        setUserMessage('');
       });
     }
+  }
+
+  if (!user) {
+    return <div>Loading...</div>;
   }
 
   return (
     <div className="chat-wrapper">
       <div className="messages-wrapper">
-        {messages.map((item) => (
-          <li key={item.id}>
-            <Flex justifyContent="space-between" gap="1rem" alignItems="center">
-              <div>{item.content}</div>
-              <button onClick={() => deleteMessage(item.id)}>Delete</button>
-            </Flex>
-          </li>
-        ))}
+        <div className="messages-scroll">
+          {messages.map((item) => (
+            <div key={item.id} className="chat-message">
+              <Flex
+                justifyContent="space-between"
+                gap=".25rem"
+                alignItems={
+                  item.username === user.username ? 'flex-end' : 'flex-start'
+                }
+                direction="column"
+              >
+                <Text
+                  variation="primary"
+                  color="#534f4f"
+                  as="div"
+                  lineHeight="1em"
+                  fontWeight={600}
+                  fontSize="1em"
+                  fontStyle="normal"
+                  textDecoration="none"
+                  // width="30vw"
+                >
+                  {item.userFirstName}
+                </Text>
+                <div
+                  className={`message-content ${item.username === user.username ? 'owner' : 'others'}`}
+                >
+                  <span>{item.content}</span>
+                  <span className="del" onClick={() => deleteMessage(item.id)}>
+                    &#9249;
+                  </span>
+                </div>
+                {/* <button >Delete</button> */}
+              </Flex>
+            </div>
+          ))}
+        </div>
       </div>
       <div className="input-wrapper">
         <TextAreaField
@@ -98,6 +148,12 @@ export default function Chat() {
           className="textarea"
           value={userMessage}
           onChange={(e: any) => setUserMessage(e.target.value)}
+          onKeyUp={(event) => {
+            if (event.key === 'Enter') {
+              event.preventDefault();
+              handleSendMessage();
+            }
+          }}
         />
         <button onClick={handleSendMessage}>Send</button>
       </div>

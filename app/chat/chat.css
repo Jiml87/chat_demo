@@ -7,11 +7,14 @@
 
 .messages-wrapper {
   flex-grow: 1;
-  padding: 32px;
-  border: solid 1px;
+  margin-top: 32px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  overflow: hidden;
+}
+
+.messages-scroll {
   overflow-y: auto;
 }
 
@@ -28,5 +31,26 @@
 }
 
 .chat-message {
+  margin: 16px 0;
+}
+
+.message-content {
   max-width: 80%;
+  border-radius: 16px;
+  padding: 16px;
+  color: #ffffff;
+  white-space: pre-line;
+  display: flex;
+
+  &.owner {
+    background-color: rgb(87 154 104);
+  }
+  &.others {
+    background-color: rgb(30, 136, 136);
+  }
+
+  & .del {
+    cursor: pointer;
+    font-size: larger;
+  }
 }
