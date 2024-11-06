@@ -16,7 +16,7 @@ const schema = a.schema({
     .model({
       content: a.string().required(),
       username: a.string().required(),
-      userLastName: a.string().required(),
+      userFirstName: a.string().required(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
 });
