@@ -9,7 +9,7 @@ import outputs from '@/amplify_outputs.json';
 import '@aws-amplify/ui-react/styles.css';
 import { Button } from '@aws-amplify/ui-react';
 import { useRouter } from 'next/navigation';
-// import { useAuthenticator } from "@aws-amplify/ui-react";
+// import { useAuthenticator } from '@aws-amplify/ui-react';
 
 Amplify.configure(outputs);
 
@@ -18,7 +18,7 @@ const client = generateClient<Schema>();
 export default function App() {
   const [todos, setTodos] = useState<Array<Schema['Todo']['type']>>([]);
   const router = useRouter();
-  const handleClick = (e) => {
+  const handleClick = (e: any) => {
     e.preventDefault();
     router.push('/chat');
   };

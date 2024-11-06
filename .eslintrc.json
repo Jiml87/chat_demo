@@ -16,6 +16,6 @@
         "trailingComma": "all"
       }
     ],
-    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }]
+    "no-unused-vars": ["off", { "argsIgnorePattern": "^_" }]
   }
 }
