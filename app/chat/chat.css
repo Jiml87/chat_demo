@@ -1,0 +1,28 @@
+.chat-wrapper {
+  height: 100dvh;
+  min-width: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+.messages-wrapper {
+  flex-grow: 1;
+  padding: 32px;
+  border: solid 1px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow-y: auto;
+}
+
+.input-wrapper {
+  padding: 32px;
+  display: flex;
+  align-items: center;
+  gap: 1;
+}
+
+.textarea {
+  flex-grow: 1;
+  margin-right: 16px;
+}
